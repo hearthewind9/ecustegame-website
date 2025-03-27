@@ -7,7 +7,7 @@ const App = () => {
   const [schedule, setSchedule] = React.useState([]);
 
   React.useEffect(() => {
-    fetch("https://raw.githubusercontent.com/hearthewind9/ecustegame-website/main/schedule.json")
+    fetch("https://cdn.jsdelivr.net/gh/hearthewind9/ecustegame-website/schedule.json")
       .then(res => res.json())
       .then(data => setSchedule(data));
   }, []);
@@ -71,7 +71,7 @@ const App = () => {
           )
         ),
         React.createElement("footer", { style: { textAlign: 'center', color: '#aaa', marginTop: '2rem', fontSize: '0.875rem' } },
-          "© 2025 华东理工大学 电竞部 | 技术支持：Ruiyang Ma"
+          "© 2025 华东理工大学 电竞部 | Made by Hearthewind"
         )
       )
     )
