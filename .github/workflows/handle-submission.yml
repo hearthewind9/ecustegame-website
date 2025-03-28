@@ -1,0 +1,32 @@
+name: Handle Form Submissions
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  save-submission:
+    runs-on: ubuntu-latest
+    if: github.event.issue.title == '[Form Submission]'
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Save submission to file
+        run: |
+          mkdir -p submissions
+          echo "${{ github.event.issue.body }}" > submissions/submission-${{ github.event.issue.id }}.json
+
+      - name: Commit and push
+        run: |
+          git config --global user.name 'form-bot'
+          git config --global user.email 'form@ecustegame.top'
+          git add submissions/
+          git commit -m "Add submission ${{ github.event.issue.id }}" || echo "Nothing to commit"
+          git push
