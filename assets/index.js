@@ -387,19 +387,34 @@ const RankingPage = () => {
     )
   );
 };
-
+const newsData = [
+  {
+    id: "spring-2025",
+    title: "2025春季赛比赛通知",
+    date: "2025-03-20",
+    content: "本次春季赛将于4月1日开赛，请各战队于3月25日前完成报名，具体赛程将另行通知。"
+  },
+  {
+    id: "autumn-2024-update",
+    title: "2024秋季赛英雄联盟赛制更新",
+    date: "2024-10-05",
+    content: "2024年秋季赛将采用全新赛制，增加小组循环赛阶段，晋级规则详见文末附件。"
+  },
+  {
+    id: "recruit-2024",
+    title: "2024电竞部秋季纳新报名开启",
+    date: "2024-09-01",
+    content: "新学期纳新现已启动，欢迎所有年级同学加入电竞部！报名表填写截至9月10日。"
+  },
+  {
+    id: "spring-2024-wrapup",
+    title: "2024春季赛结束公告",
+    date: "2024-05-18",
+    content: "感谢所有参赛队伍，2024春季赛圆满落幕，祝贺冠军战队XYZ！完整成绩见官网战绩墙。"
+  }
+];
 const NewsPage = () => {
-  const news = [
-    { title: "2025无畏契约“神将杯”举办公告", date: "2025-03-15" },
-    { title: "2024无畏契约第一届"瓦理杯"举办公告", date: "2024-09-03" },
-    { title: "2024电竞部秋季纳新报名开启", date: "2024-09-01" },
-    { title: "2024年英雄联盟第二届“明德杯”举办公告", date: "2024-03-08" },
-    { title: "2023电竞部秋季纳新结果公布", date: "2023-11-10" },
-    { title: "2023年英雄联盟第一届“明德杯”比赛预告", date: "2023-03-15" }
-  ];
-
-  const sorted = news.sort((a, b) => new Date(b.date) - new Date(a.date));
-
+  const sorted = newsData.sort((a, b) => new Date(b.date) - new Date(a.date));
   return PageWrapper(
     createElement("div", {
       style: {
@@ -444,7 +459,7 @@ const NewsPage = () => {
               fontSize: "0.95rem"
             }
           },
-            createElement("span", null, item.title),
+            createElement(Link, { to: `/news/${item.id}`, style: { color: "#1e3a8a", textDecoration: "none" } }, item.title),
             createElement("span", null, item.date)
           )
         )
@@ -452,6 +467,28 @@ const NewsPage = () => {
     )
   );
 };
+const NewsDetailPage = () => {
+  const { id } = useParams();
+  const item = newsData.find(n => n.id === id);
+  return PageWrapper(
+    createElement("div", {
+      style: {
+        minHeight: "100vh",
+        background: "#f1f5f9",
+        padding: "2rem",
+        color: "#1e3a8a"
+      }
+    },
+      item ? createElement("div", { style: { maxWidth: 800, margin: "0 auto" } },
+        createElement("h2", { style: { fontSize: "1.5rem", marginBottom: "1rem" } }, item.title),
+        createElement("p", { style: { marginBottom: "1rem", color: "#64748b" } }, item.date),
+        createElement("div", { style: { fontSize: "1rem", lineHeight: "1.6" } }, item.content)
+      ) :
+        createElement("p", null, "找不到对应的公告。")
+    )
+  );
+};
+
 const groupData = [
   ["微信公众号", "花梨电竞"],
   ["英勇之地", "926265440"], ["三角洲行动", "552750103"], ["Apex", "619091353"],
