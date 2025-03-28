@@ -1,13 +1,13 @@
 name: Handle Form Submissions
 
 on:
-  issues:
-    types: [opened]
+  repository_dispatch:
+    types: [submit-form]
 
 jobs:
   save-submission:
     runs-on: ubuntu-latest
-    if: startsWith(github.event.issue.title, '[Form Submission]')
+    if: github.event.client_payload.secret == 'shenj!ang2025-secret'
 
     steps:
       - name: Checkout repo
@@ -16,12 +16,12 @@ jobs:
       - name: Save submission to file
         run: |
           mkdir -p submissions
-          echo "${{ github.event.issue.body }}" > submissions/submission-${{ github.event.issue.number }}.txt
+          echo '${{ github.event.client_payload.data }}' > submissions/${{ github.event.client_payload.filename }}
 
       - name: Commit and push
         run: |
           git config --global user.name 'form-bot'
           git config --global user.email 'form@ecustegame.top'
           git add submissions/
-          git commit -m "Add submission ${{ github.event.issue.number }}" || echo "Nothing to commit"
+          git commit -m "Add submission ${{ github.event.client_payload.filename }}" || echo "Nothing to commit"
           git push
