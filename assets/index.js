@@ -571,6 +571,158 @@ const Page = ({ title }) => PageWrapper(
     }
   }, createElement("h2", { style: { fontSize: "2rem", color: "#334155" } }, title))
 );
+const EventsPage = () => {
+  const events = [
+    {
+      id: "shenjiang-report",
+      title: "“神将杯”炸鱼举报入口",
+      date: "2025-03-28",
+      description: "举报选手疑似炸鱼、消极比赛或使用外挂行为，我们将及时跟进处理。",
+      path: "/events/shenjiang-report"
+    },
+    {
+      id: "recruit-2025",
+      title: "2025电竞社春季招新",
+      date: "2025-03-15",
+      description: "欢迎热爱电竞的你加入我们，成为赛事选手、解说主播或幕后运营的一员！",
+      path: "/events/recruit-2025"
+    }
+  ];
+  return PageWrapper(
+    createElement("div", {
+      style: {
+        minHeight: "100vh",
+        background: "#f1f5f9",
+        padding: "2rem",
+        color: "#1e3a8a"
+      }
+    },
+      createElement("h2", {
+        style: {
+          textAlign: "center",
+          fontSize: "1.5rem",
+          marginBottom: "1.5rem"
+        }
+      }, "活动页面"),
+      createElement("div", {
+        style: {
+          maxWidth: 800,
+          margin: "0 auto",
+          background: "white",
+          border: "1px solid #cbd5e1",
+          borderRadius: "0.5rem"
+        }
+      },
+        createElement("div", {
+          style: {
+            background: "#e2e8f0",
+            padding: "0.75rem 1rem",
+            fontWeight: "bold",
+            borderBottom: "1px solid #cbd5e1"
+          }
+        }, "活动列表"),
+        events.map((item, idx) =>
+          createElement("div", {
+            key: idx,
+            style: {
+              display: "flex",
+              justifyContent: "space-between",
+              padding: "0.75rem 1rem",
+              borderBottom: idx === events.length - 1 ? "none" : "1px solid #e5e7eb",
+              fontSize: "0.95rem"
+            }
+          },
+            createElement(Link, { to: item.path, style: { color: "#1e3a8a", textDecoration: "none" } }, item.title),
+            createElement("span", null, item.date)
+          )
+        )
+      )
+    )
+  );
+};
+
+const ShenjiangReportPage = () => PageWrapper(
+  createElement("div", {
+    style: {
+      minHeight: "100vh",
+      background: "#f9fafb",
+      padding: "2rem",
+      color: "#1e3a8a"
+    }
+  },
+    createElement("h2", { style: { textAlign: "center", marginBottom: "1rem" } }, "神将杯炸鱼举报表单"),
+    createElement("form", {
+      style: { maxWidth: 600, margin: "0 auto", display: "flex", flexDirection: "column", gap: "1rem" },
+      onSubmit: e => {
+        e.preventDefault();
+        alert("感谢你的举报，我们将尽快处理并反馈至你的邮箱。");
+      }
+    },
+      createElement("input", {
+        type: "text",
+        required: true,
+        placeholder: "举报选手ID",
+        style: baseInputStyle
+      }),
+      createElement("input", {
+        type: "text",
+        required: true,
+        placeholder: "该选手本场比赛选用英雄",
+        style: baseInputStyle
+      }),
+      createElement("textarea", {
+        required: true,
+        placeholder: "举报理由，如：第3回合穿墙，第5回合道具异常使用",
+        rows: 4,
+        style: { ...baseInputStyle, resize: "vertical" }
+      }),
+      createElement("input", {
+        type: "email",
+        required: true,
+        placeholder: "你的邮箱（用于反馈）",
+        style: baseInputStyle
+      }),
+      createElement("button", {
+        type: "submit",
+        style: {
+          background: "#1e3a8a",
+          color: "white",
+          padding: "0.75rem 1.5rem",
+          border: "none",
+          borderRadius: "0.5rem",
+          fontWeight: "bold",
+          cursor: "pointer"
+        }
+      }, "提交举报")
+    )
+  )
+);
+
+const Recruit2025Page = () => PageWrapper(
+  createElement("div", {
+    style: {
+      minHeight: "100vh",
+      background: "#f9fafb",
+      padding: "2rem",
+      color: "#1e3a8a"
+    }
+  },
+    createElement("div", { style: { maxWidth: 800, margin: "0 auto" } },
+      createElement("h2", { style: { fontSize: "1.5rem", marginBottom: "1rem" } }, "2025电竞部春季招新"),
+      createElement("p", { style: { fontSize: "1rem", lineHeight: "1.6" } },
+        "想加入热血与荣耀并存的电竞大家庭？2025春季招新正式启动！电竞部现面向全校招募运营、解说、赛事策划、视频剪辑、赛事选手等多个方向的新成员。不限年级与经验，只要你热爱电竞、有想法有干劲，我们都欢迎你！",
+        "报名截止日期：2025年3月25日。具体报名方式见群公告或线下宣传展位。"
+      )
+    )
+  )
+);
+
+const baseInputStyle = {
+  padding: "0.75rem",
+  borderRadius: "0.5rem",
+  border: "1px solid #cbd5e1",
+  fontSize: "1rem"
+};
 
 const App = () => createElement(
   HashRouter,
@@ -582,6 +734,7 @@ const App = () => createElement(
     createElement(Route, { exact: true, path: "/", component: Home }),
     createElement(Route, { path: "/schedule", component: SchedulePage }),
     createElement(Route, { path: "/news/:id", component: NewsDetailPage }),
+    createElement(Route, { path: "/events",component : EventsPage}),
     createElement(Route, { path: "/news" , component : NewsPage}),
     createElement(Route, { path: "/contact", component: ContactPage }),
     createElement(Route, { path: "/ranking", component: RankingPage }),
