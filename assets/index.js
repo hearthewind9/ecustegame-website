@@ -3,25 +3,23 @@ function toBase64Unicode(str) {
 }
 
 async function submitToGitHub(filename, data) {
-  const repo = "hearthewind9/ecustegame-website";
-  const path = `submissions/${filename}.json`;
-  const content = toBase64Unicode(JSON.stringify(data, null, 2));
-
   const res = await fetch("https://api.github.com/repos/hearthewind9/ecustegame-website/dispatches", {
-  method: "POST",
-  headers: {
-    "Accept": "application/vnd.github.everest-preview+json",
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    event_type: "submit-form",
-    client_payload: {
-      secret: "shenj!ang2025-secret",  // 和仓库 secret 一致
-      filename: `shenjiang-${Date.now()}.json`,
-      data: JSON.stringify(formData)
-    }
-  })
-})
+    method: "POST",
+    headers: {
+      "Accept": "application/vnd.github.everest-preview+json",
+      "Content-Type": "application/json",
+      // "Authorization": "Bearer ghp_..." // 本地测试写，部署时一定要删除
+    },
+    body: JSON.stringify({
+      event_type: "submit-form",
+      client_payload: {
+        secret: "shenj!ang2025-secret", // 要与 GitHub Actions 校验一致
+        filename: filename,
+        data: JSON.stringify(data, null, 2)
+      }
+    })
+  });
+
   if (!res.ok) {
     alert("❌ 提交失败，请稍后再试");
     console.error(await res.json());
@@ -29,6 +27,7 @@ async function submitToGitHub(filename, data) {
     alert("✅ 提交成功，感谢你的反馈！");
   }
 }
+
 
 const { createElement, useEffect, useState } = React;
 const { createRoot } = ReactDOM;
