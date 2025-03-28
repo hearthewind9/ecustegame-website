@@ -743,63 +743,6 @@ const ShenjiangReportPage = () => {
     )
   );
 };
-
-
-
-  return PageWrapper(
-    createElement("div", {
-      style: {
-        minHeight: "100vh",
-        background: "#f9fafb",
-        padding: "2rem",
-        color: "#1e3a8a"
-      }
-    },
-      createElement("h2", { style: { textAlign: "center", marginBottom: "1rem" } }, "神将杯炸鱼举报表单"),
-      createElement("form", {
-        style: { maxWidth: 600, margin: "0 auto", display: "flex", flexDirection: "column", gap: "1rem" },
-        onSubmit: handleSubmit
-      },
-        createElement("input", {
-          type: "text",
-          required: true,
-          placeholder: "举报选手ID",
-          style: baseInputStyle
-        }),
-        createElement("input", {
-          type: "text",
-          required: true,
-          placeholder: "该选手本场比赛选用英雄",
-          style: baseInputStyle
-        }),
-        createElement("textarea", {
-          required: true,
-          placeholder: "举报理由，如：第3回合穿墙，第5回合道具异常使用",
-          rows: 4,
-          style: { ...baseInputStyle, resize: "vertical" }
-        }),
-        createElement("input", {
-          type: "email",
-          required: true,
-          placeholder: "你的邮箱（用于反馈）",
-          style: baseInputStyle
-        }),
-        createElement("button", {
-          type: "submit",
-          style: {
-            background: "#1e3a8a",
-            color: "white",
-            padding: "0.75rem 1.5rem",
-            border: "none",
-            borderRadius: "0.5rem",
-            fontWeight: "bold",
-            cursor: "pointer"
-          }
-        }, "提交举报")
-      )
-    )
-  );
-};
 const Recruit2025Page = () => PageWrapper(
   createElement("div", {
     style: {
