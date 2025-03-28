@@ -114,6 +114,35 @@ const Home = () => {
           }
         },
         createElement("p", null, news[index])
+      ),
+      createElement(
+        "div",
+        {
+          style: {
+            display: "flex",
+            justifyContent: "center",
+            gap: "1rem",
+            flexWrap: "wrap",
+            marginTop: "2rem"
+          }
+        },
+        ["/lol", "/valorant", "/cs2", "/ow"].map((to, i) =>
+          createElement(
+            Link,
+            {
+              to,
+              key: i,
+              style: {
+                background: "#1e3a8a",
+                color: "white",
+                padding: "0.75rem 1.25rem",
+                borderRadius: "0.75rem",
+                fontWeight: "bold"
+              }
+            },
+            ["英雄联盟", "无畏契约", "CS2", "守望先锋"][i]
+          )
+        )
       )
     )
   );
@@ -225,6 +254,18 @@ const ContactPage = () => PageWrapper(
   )
 );
 
+const Page = ({ title }) => PageWrapper(
+  createElement("div", {
+    style: {
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      background: "#f1f5f9"
+    }
+  }, createElement("h2", { style: { fontSize: "2rem", color: "#334155" } }, title))
+);
+
 const App = () => createElement(
   BrowserRouter,
   null,
@@ -234,7 +275,11 @@ const App = () => createElement(
     null,
     createElement(Route, { exact: true, path: "/", component: Home }),
     createElement(Route, { path: "/schedule", component: SchedulePage }),
-    createElement(Route, { path: "/contact", component: ContactPage })
+    createElement(Route, { path: "/contact", component: ContactPage }),
+    createElement(Route, { path: "/lol", component: () => Page({ title: "英雄联盟页面（开发中）" }) }),
+    createElement(Route, { path: "/valorant", component: () => Page({ title: "无畏契约页面（开发中）" }) }),
+    createElement(Route, { path: "/cs2", component: () => Page({ title: "CS2 页面（开发中）" }) }),
+    createElement(Route, { path: "/ow", component: () => Page({ title: "守望先锋页面（开发中）" }) })
   )
 );
 
