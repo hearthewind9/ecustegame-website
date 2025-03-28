@@ -3,11 +3,12 @@ const { createElement, useEffect, useState } = React;
 const { createRoot } = ReactDOM;
 const {
   BrowserRouter,
-  Routes,
   Route,
+  Switch,
   Link
 } = ReactRouterDOM;
 
+// 公共导航栏
 const NavBar = () => createElement(
   "div",
   {
@@ -34,18 +35,16 @@ const NavBar = () => createElement(
   )
 );
 
-const news = [
-  "🔥 校内英雄联盟联赛即将开战！",
-  "📢 2025春季赛报名已开启！",
-  "🎉 电竞部荣获市级最佳组织奖！"
-];
-
+// 首页
 const Home = () => {
   const [index, setIndex] = useState(0);
+  const news = [
+    "🔥 校内英雄联盟联赛即将开战！",
+    "📢 2025春季赛报名已开启！",
+    "🎉 电竞部荣获市级最佳组织奖！"
+  ];
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex(i => (i + 1) % news.length);
-    }, 3000);
+    const interval = setInterval(() => setIndex(i => (i + 1) % news.length), 3000);
     return () => clearInterval(interval);
   }, []);
   return createElement(
@@ -110,13 +109,13 @@ const Home = () => {
   );
 };
 
+// 赛程页
 const SchedulePage = () => {
   const [query, setQuery] = useState("");
   const [schedule, setSchedule] = useState([]);
   useEffect(() => {
     fetch("https://cdn.jsdelivr.net/gh/hearthewind9/ecustegame-website/schedule.json")
-      .then(res => res.json())
-      .then(data => setSchedule(data));
+      .then(res => res.json()).then(data => setSchedule(data));
   }, []);
   const filtered = schedule.filter(row =>
     query === "" || Object.values(row).some(cell =>
@@ -175,37 +174,37 @@ const SchedulePage = () => {
   );
 };
 
-const Page = ({ title }) =>
-  createElement(
-    "div",
-    {
-      style: {
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        background: "#f1f5f9"
-      }
-    },
-    createElement("h2", { style: { fontSize: "2rem", color: "#334155" } }, title)
-  );
+// 占位页
+const Page = ({ title }) => createElement(
+  "div",
+  {
+    style: {
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      background: "#f1f5f9"
+    }
+  },
+  createElement("h2", { style: { fontSize: "2rem", color: "#334155" } }, title)
+);
 
-const App = () =>
+// 主应用组件
+const App = () => createElement(
+  BrowserRouter,
+  null,
+  createElement(NavBar),
   createElement(
-    BrowserRouter,
+    Switch,
     null,
-    createElement(NavBar),
-    createElement(
-      Routes,
-      null,
-      createElement(Route, { path: "/", element: createElement(Home) }),
-      createElement(Route, { path: "/schedule", element: createElement(SchedulePage) }),
-      createElement(Route, { path: "/news", element: createElement(Page, { title: "公告页面（待建设）" }) }),
-      createElement(Route, { path: "/games", element: createElement(Page, { title: "比赛页面（待建设）" }) }),
-      createElement(Route, { path: "/ranking", element: createElement(Page, { title: "实时积分榜页面（开发中）" }) }),
-      createElement(Route, { path: "/events", element: createElement(Page, { title: "活动页面（待填充）" }) }),
-      createElement(Route, { path: "/contact", element: createElement(Page, { title: "联系我们页面" }) })
-    )
-  );
+    createElement(Route, { exact: true, path: "/", component: Home }),
+    createElement(Route, { path: "/schedule", component: SchedulePage }),
+    createElement(Route, { path: "/news", component: () => Page({ title: "公告页面（待建设）" }) }),
+    createElement(Route, { path: "/games", component: () => Page({ title: "比赛页面（待建设）" }) }),
+    createElement(Route, { path: "/ranking", component: () => Page({ title: "实时积分榜页面（开发中）" }) }),
+    createElement(Route, { path: "/events", component: () => Page({ title: "活动页面（待填充）" }) }),
+    createElement(Route, { path: "/contact", component: () => Page({ title: "联系我们页面" }) })
+  )
+);
 
 createRoot(document.getElementById("root")).render(createElement(App));
