@@ -551,6 +551,7 @@ const App = () => createElement(
     null,
     createElement(Route, { exact: true, path: "/", component: Home }),
     createElement(Route, { path: "/schedule", component: SchedulePage }),
+    createElement(Route, { path: "/news/:id", component: NewsDetailPage }),
     createElement(Route, { path: "/news" , component : NewsPage}),
     createElement(Route, { path: "/contact", component: ContactPage }),
     createElement(Route, { path: "/ranking", component: RankingPage }),
