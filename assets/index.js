@@ -1,5 +1,5 @@
 
-const { createElement, useEffect, useState } = React;
+const { createElement } = React;
 const { createRoot } = ReactDOM;
 const {
   BrowserRouter,
@@ -67,10 +67,12 @@ const ContactPage = () => PageWrapper(
     }
   },
     createElement("h2", { style: { textAlign: "center" } }, "各大游戏群请参考以下群号，大家玩的开心！"),
-    createElement("p", { style: { maxWidth: 700, margin: "1rem auto", fontSize: "0.9rem", textAlign: "center" } },
-      "首先，各位要清楚，这些群不知道还活没活着，活着可能也是些老登，电竞部只做宣传。
-各位如有需求，可以找到同好，拉建新群，联系我来改公告宣传哝！"
-    ),
+    createElement("p", {
+      style: { maxWidth: 700, margin: "1rem auto", fontSize: "0.9rem", textAlign: "center" }
+    }, "首先，各位要清楚，这些群不知道还活没活着，活着可能也是些老登，电竞部只做宣传。"),
+    createElement("p", {
+      style: { maxWidth: 700, margin: "-0.5rem auto 1rem", fontSize: "0.9rem", textAlign: "center" }
+    }, "各位如有需求，可以找到同好，拉建新群，联系我来改公告宣传哝！"),
     createElement("div", { className: "group-list" },
       groupData.map(([name, id], idx) =>
         createElement("div", { className: "group-item", key: idx },
