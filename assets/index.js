@@ -439,6 +439,7 @@ const App = () => createElement(
     createElement(Route, { exact: true, path: "/", component: Home }),
     createElement(Route, { path: "/schedule", component: SchedulePage }),
     createElement(Route, { path: "/contact", component: ContactPage }),
+    createElement(Route, { path: "/ranking", component: RankingPage }),
     createElement(Route, { path: "/lol", component: () => Page({ title: "英雄联盟页面（开发中）" }) }),
     createElement(Route, { path: "/valorant", component: () => Page({ title: "无畏契约页面（开发中）" }) }),
     createElement(Route, { path: "/cs2", component: () => Page({ title: "CS2 页面（开发中）" }) }),
