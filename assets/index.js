@@ -733,6 +733,8 @@ const App = () => createElement(
     null,
     createElement(Route, { exact: true, path: "/", component: Home }),
     createElement(Route, { path: "/schedule", component: SchedulePage }),
+    createElement(Route, { path: "/events/shenjiang-report", component: ShenjiangReportPage }),
+    createElement(Route, { path: "/events/recruit-2025", component: Recruit2025Page }),
     createElement(Route, { path: "/news/:id", component: NewsDetailPage }),
     createElement(Route, { path: "/events",component : EventsPage}),
     createElement(Route, { path: "/news" , component : NewsPage}),
