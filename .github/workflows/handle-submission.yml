@@ -7,21 +7,22 @@ on:
 jobs:
   save-submission:
     runs-on: ubuntu-latest
+    # 如果你想校验 secret，可加上:
     if: github.event.client_payload.secret == 'shenj!ang2025-secret'
-
     steps:
-      - name: Checkout repo
+      - name: Check out
         uses: actions/checkout@v3
 
-      - name: Save submission to file
-        run: |
-          mkdir -p submissions
-          echo '${{ github.event.client_payload.data }}' > submissions/${{ github.event.client_payload.filename }}
+      - name: Create submissions folder
+        run: mkdir -p submissions
+
+      - name: Save form data
+        run: echo '${{ github.event.client_payload.data }}' > submissions/${{ github.event.client_payload.filename }}
 
       - name: Commit and push
         run: |
-          git config --global user.name 'form-bot'
-          git config --global user.email 'form@ecustegame.top'
+          git config user.name 'form-bot'
+          git config user.email 'bot@ecustegame.top'
           git add submissions/
-          git commit -m "Add submission ${{ github.event.client_payload.filename }}" || echo "Nothing to commit"
+          git commit -m "Add ${{ github.event.client_payload.filename }}" || echo "Nothing to commit"
           git push
