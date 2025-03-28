@@ -3,3 +3,6 @@ body {
   margin: 0;
   font-family: '等线', 'Microsoft YaHei', sans-serif;
 }
+a {
+  text-decoration: none;
+}
