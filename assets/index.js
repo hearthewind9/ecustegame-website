@@ -2,10 +2,11 @@
 const { createElement, useEffect, useState } = React;
 const { createRoot } = ReactDOM;
 const {
-  BrowserRouter,
+  HashRouter,
   Route,
   Switch,
-  Link
+  Link,
+  useParams
 } = ReactRouterDOM;
 
 const NavBar = () => createElement(
@@ -542,7 +543,7 @@ const Page = ({ title }) => PageWrapper(
 );
 
 const App = () => createElement(
-  BrowserRouter,
+  HashRouter,
   null,
   createElement(NavBar),
   createElement(
