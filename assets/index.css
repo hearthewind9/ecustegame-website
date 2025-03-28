@@ -6,3 +6,10 @@ body {
 a {
   text-decoration: none;
 }
+footer {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #64748b;
+  padding: 1rem 0;
+  background: #f8fafc;
+}

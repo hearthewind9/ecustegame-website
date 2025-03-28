@@ -5,10 +5,10 @@ const {
   BrowserRouter,
   Route,
   Switch,
-  Link
+  Link,
+  useHistory
 } = ReactRouterDOM;
 
-// 公共导航栏
 const NavBar = () => createElement(
   "div",
   {
@@ -21,7 +21,11 @@ const NavBar = () => createElement(
       flexWrap: "wrap"
     }
   },
-  createElement("strong", null, "ECUST 电竞部"),
+  createElement(
+    Link,
+    { to: "/", style: { color: "white", fontWeight: "bold", fontSize: "1.1rem", textDecoration: "none" } },
+    "ECUST 电竞部"
+  ),
   createElement(
     "nav",
     { style: { display: "flex", gap: "1rem", fontSize: "0.9rem" } },
@@ -35,7 +39,12 @@ const NavBar = () => createElement(
   )
 );
 
-// 首页
+const Footer = () =>
+  createElement("footer", null, "© 2025 电竞部 ｜ 技术支持：Hearthewind");
+
+const PageWrapper = (children) =>
+  createElement(React.Fragment, null, children, createElement(Footer));
+
 const Home = () => {
   const [index, setIndex] = useState(0);
   const news = [
@@ -47,69 +56,70 @@ const Home = () => {
     const interval = setInterval(() => setIndex(i => (i + 1) % news.length), 3000);
     return () => clearInterval(interval);
   }, []);
-  return createElement(
-    "div",
-    {
-      style: {
-        minHeight: "100vh",
-        background: "linear-gradient(to bottom right, #60a5fa, #3b82f6)",
-        padding: "2rem",
-        color: "white"
-      }
-    },
-    createElement(
-      "h1",
-      { style: { fontSize: "2rem", textAlign: "center", marginBottom: "1.5rem" } },
-      "ECUST 电竞部"
-    ),
+  return PageWrapper(
     createElement(
       "div",
       {
         style: {
-          display: "flex",
-          justifyContent: "center",
-          gap: "1rem",
-          flexWrap: "wrap",
-          marginBottom: "1.5rem"
+          minHeight: "100vh",
+          background: "linear-gradient(to bottom right, #60a5fa, #3b82f6)",
+          padding: "2rem",
+          color: "white"
         }
       },
-      ["/news", "/games", "/schedule", "/ranking", "/events", "/contact"].map((to, i) =>
-        createElement(
-          Link,
-          {
-            to,
-            key: i,
-            style: {
-              background: "white",
-              color: "#2563eb",
-              padding: "0.5rem 1rem",
-              borderRadius: "999px",
-              fontWeight: "bold"
-            }
-          },
-          ["公告", "比赛", "赛程查询", "实时积分榜", "活动", "联系我们"][i]
+      createElement(
+        "h1",
+        { style: { fontSize: "2rem", textAlign: "center", marginBottom: "1.5rem" } },
+        "ECUST 电竞部"
+      ),
+      createElement(
+        "div",
+        {
+          style: {
+            display: "flex",
+            justifyContent: "center",
+            gap: "1rem",
+            flexWrap: "wrap",
+            marginBottom: "1.5rem"
+          }
+        },
+        ["/news", "/games", "/schedule", "/ranking", "/events", "/contact"].map((to, i) =>
+          createElement(
+            Link,
+            {
+              to,
+              key: i,
+              style: {
+                background: "white",
+                color: "#2563eb",
+                padding: "0.5rem 1rem",
+                borderRadius: "999px",
+                fontWeight: "bold"
+              }
+            },
+            ["公告", "比赛", "赛程查询", "实时积分榜", "活动", "联系我们"][i]
+          )
         )
+      ),
+      createElement(
+        "div",
+        {
+          style: {
+            background: "white",
+            color: "#2563eb",
+            borderRadius: "1rem",
+            padding: "1rem",
+            textAlign: "center",
+            maxWidth: 500,
+            margin: "0 auto"
+          }
+        },
+        createElement("p", null, news[index])
       )
-    ),
-    createElement(
-      "div",
-      {
-        style: {
-          background: "white",
-          color: "#2563eb",
-          borderRadius: "1rem",
-          padding: "1rem",
-          textAlign: "center",
-          maxWidth: 500,
-          margin: "0 auto"
-        }
-      },
-      createElement("p", null, news[index])
     )
   );
 };
 
-// 赛程页
 const SchedulePage = () => {
   const [query, setQuery] = useState("");
   const [schedule, setSchedule] = useState([]);
@@ -122,49 +132,51 @@ const SchedulePage = () => {
       cell && cell.toString().replace(/\s+/g, '').toLowerCase().includes(query.replace(/\s+/g, '').toLowerCase())
     )
   );
-  return createElement(
-    "div",
-    { style: { background: "#eff6ff", minHeight: "100vh", padding: "2rem" } },
-    createElement("h2", { style: { textAlign: "center", fontSize: "1.5rem", marginBottom: "1rem" } }, "赛程查询"),
+  return PageWrapper(
     createElement(
       "div",
-      { style: { maxWidth: 800, margin: "0 auto" } },
-      createElement("input", {
-        type: "text",
-        placeholder: "搜索队伍、裁判、时间…",
-        value: query,
-        onChange: e => setQuery(e.target.value),
-        style: {
-          padding: "0.75rem",
-          width: "100%",
-          marginBottom: "1rem",
-          borderRadius: "0.5rem",
-          border: "1px solid #93c5fd"
-        }
-      }),
+      { style: { background: "#eff6ff", minHeight: "100vh", padding: "2rem" } },
+      createElement("h2", { style: { textAlign: "center", fontSize: "1.5rem", marginBottom: "1rem" } }, "赛程查询"),
       createElement(
-        "table",
-        { style: { width: "100%", background: "white", borderCollapse: "collapse" } },
+        "div",
+        { style: { maxWidth: 800, margin: "0 auto" } },
+        createElement("input", {
+          type: "text",
+          placeholder: "搜索队伍、裁判、时间…",
+          value: query,
+          onChange: e => setQuery(e.target.value),
+          style: {
+            padding: "0.75rem",
+            width: "100%",
+            marginBottom: "1rem",
+            borderRadius: "0.5rem",
+            border: "1px solid #93c5fd"
+          }
+        }),
         createElement(
-          "thead",
-          { style: { background: "#bfdbfe" } },
+          "table",
+          { style: { width: "100%", background: "white", borderCollapse: "collapse" } },
           createElement(
-            "tr",
-            null,
-            ["组别", "阶段", "日期", "时间", "队伍1", "队伍2", "裁判"].map(h =>
-              createElement("th", { key: h, style: { padding: "0.5rem" } }, h)
-            )
-          )
-        ),
-        createElement(
-          "tbody",
-          null,
-          filtered.map((row, idx) =>
+            "thead",
+            { style: { background: "#bfdbfe" } },
             createElement(
               "tr",
-              { key: idx, style: { background: idx % 2 ? "#ffffff" : "#eff6ff" } },
-              ["组别", "阶段", "日期", "时间", "队伍1", "队伍2", "裁判"].map(k =>
-                createElement("td", { key: k, style: { textAlign: "center", padding: "0.5rem" } }, row[k])
+              null,
+              ["组别", "阶段", "日期", "时间", "队伍1", "队伍2", "裁判"].map(h =>
+                createElement("th", { key: h, style: { padding: "0.5rem" } }, h)
+              )
+            )
+          ),
+          createElement(
+            "tbody",
+            null,
+            filtered.map((row, idx) =>
+              createElement(
+                "tr",
+                { key: idx, style: { background: idx % 2 ? "#ffffff" : "#eff6ff" } },
+                ["组别", "阶段", "日期", "时间", "队伍1", "队伍2", "裁判"].map(k =>
+                  createElement("td", { key: k, style: { textAlign: "center", padding: "0.5rem" } }, row[k])
+                )
               )
             )
           )
@@ -174,22 +186,23 @@ const SchedulePage = () => {
   );
 };
 
-// 占位页
-const Page = ({ title }) => createElement(
-  "div",
-  {
-    style: {
-      minHeight: "100vh",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      background: "#f1f5f9"
-    }
-  },
-  createElement("h2", { style: { fontSize: "2rem", color: "#334155" } }, title)
-);
+const Page = ({ title }) =>
+  PageWrapper(
+    createElement(
+      "div",
+      {
+        style: {
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "#f1f5f9"
+        }
+      },
+      createElement("h2", { style: { fontSize: "2rem", color: "#334155" } }, title)
+    )
+  );
 
-// 主应用组件
 const App = () => createElement(
   BrowserRouter,
   null,
