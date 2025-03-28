@@ -5,8 +5,7 @@ const {
   BrowserRouter,
   Route,
   Switch,
-  Link,
-  useHistory
+  Link
 } = ReactRouterDOM;
 
 const NavBar = () => createElement(
@@ -115,70 +114,33 @@ const Home = () => {
           }
         },
         createElement("p", null, news[index])
-      )
-    )
-  );
-};
-
-const SchedulePage = () => {
-  const [query, setQuery] = useState("");
-  const [schedule, setSchedule] = useState([]);
-  useEffect(() => {
-    fetch("https://cdn.jsdelivr.net/gh/hearthewind9/ecustegame-website/schedule.json")
-      .then(res => res.json()).then(data => setSchedule(data));
-  }, []);
-  const filtered = schedule.filter(row =>
-    query === "" || Object.values(row).some(cell =>
-      cell && cell.toString().replace(/\s+/g, '').toLowerCase().includes(query.replace(/\s+/g, '').toLowerCase())
-    )
-  );
-  return PageWrapper(
-    createElement(
-      "div",
-      { style: { background: "#eff6ff", minHeight: "100vh", padding: "2rem" } },
-      createElement("h2", { style: { textAlign: "center", fontSize: "1.5rem", marginBottom: "1rem" } }, "赛程查询"),
+      ),
       createElement(
         "div",
-        { style: { maxWidth: 800, margin: "0 auto" } },
-        createElement("input", {
-          type: "text",
-          placeholder: "搜索队伍、裁判、时间…",
-          value: query,
-          onChange: e => setQuery(e.target.value),
+        {
           style: {
-            padding: "0.75rem",
-            width: "100%",
-            marginBottom: "1rem",
-            borderRadius: "0.5rem",
-            border: "1px solid #93c5fd"
+            display: "flex",
+            justifyContent: "center",
+            gap: "1rem",
+            flexWrap: "wrap",
+            marginTop: "2rem"
           }
-        }),
-        createElement(
-          "table",
-          { style: { width: "100%", background: "white", borderCollapse: "collapse" } },
+        },
+        ["/lol", "/valorant", "/cs2", "/ow"].map((to, i) =>
           createElement(
-            "thead",
-            { style: { background: "#bfdbfe" } },
-            createElement(
-              "tr",
-              null,
-              ["组别", "阶段", "日期", "时间", "队伍1", "队伍2", "裁判"].map(h =>
-                createElement("th", { key: h, style: { padding: "0.5rem" } }, h)
-              )
-            )
-          ),
-          createElement(
-            "tbody",
-            null,
-            filtered.map((row, idx) =>
-              createElement(
-                "tr",
-                { key: idx, style: { background: idx % 2 ? "#ffffff" : "#eff6ff" } },
-                ["组别", "阶段", "日期", "时间", "队伍1", "队伍2", "裁判"].map(k =>
-                  createElement("td", { key: k, style: { textAlign: "center", padding: "0.5rem" } }, row[k])
-                )
-              )
-            )
+            Link,
+            {
+              to,
+              key: i,
+              style: {
+                background: "#1e3a8a",
+                color: "white",
+                padding: "0.75rem 1.25rem",
+                borderRadius: "0.75rem",
+                fontWeight: "bold"
+              }
+            },
+            ["英雄联盟", "无畏契约", "CS2", "守望先锋"][i]
           )
         )
       )
@@ -211,7 +173,11 @@ const App = () => createElement(
     Switch,
     null,
     createElement(Route, { exact: true, path: "/", component: Home }),
-    createElement(Route, { path: "/schedule", component: SchedulePage }),
+    createElement(Route, { path: "/lol", component: () => Page({ title: "英雄联盟页面（开发中）" }) }),
+    createElement(Route, { path: "/valorant", component: () => Page({ title: "无畏契约页面（开发中）" }) }),
+    createElement(Route, { path: "/cs2", component: () => Page({ title: "CS2 页面（开发中）" }) }),
+    createElement(Route, { path: "/ow", component: () => Page({ title: "守望先锋页面（开发中）" }) }),
+    createElement(Route, { path: "/schedule", component: () => Page({ title: "赛程查询页面" }) }),
     createElement(Route, { path: "/news", component: () => Page({ title: "公告页面（待建设）" }) }),
     createElement(Route, { path: "/games", component: () => Page({ title: "比赛页面（待建设）" }) }),
     createElement(Route, { path: "/ranking", component: () => Page({ title: "实时积分榜页面（开发中）" }) }),
