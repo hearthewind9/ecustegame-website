@@ -267,6 +267,116 @@ const SchedulePage = () => {
   );
 };
 
+const RankingPage = () => {
+  const [group, setGroup] = useState("A组");
+  const data = {
+    "A组": [
+      { rank: 1, team: "DK", win: 6, loss: 0, score: 6 },
+      { rank: 2, team: "C9", win: 3, loss: 4, score: 3 },
+      { rank: 3, team: "RGE", win: 3, loss: 5, score: 3 },
+      { rank: 4, team: "FPX", win: 2, loss: 5, score: 2 }
+    ],
+    "B组": [
+      { rank: 1, team: "TES", win: 5, loss: 1, score: 5 },
+      { rank: 2, team: "EDG", win: 4, loss: 2, score: 4 }
+    ],
+    "C组": [
+      { rank: 1, team: "RNG", win: 6, loss: 1, score: 6 }
+    ],
+    "D组": [
+      { rank: 1, team: "BLG", win: 3, loss: 3, score: 3 }
+    ]
+  };
+  const groups = Object.keys(data);
+  const current = data[group].sort((a, b) => b.score - a.score);
+
+  return PageWrapper(
+    createElement("div", {
+      style: {
+        minHeight: "100vh",
+        background: "#1e3a8a",
+        padding: "2rem",
+        color: "white"
+      }
+    },
+      createElement("h2", {
+        style: {
+          textAlign: "center",
+          fontSize: "1.5rem",
+          marginBottom: "1rem"
+        }
+      }, "实时积分榜"),
+      createElement("div", {
+        style: {
+          display: "flex",
+          justifyContent: "center",
+          gap: "1rem",
+          marginBottom: "1rem"
+        }
+      },
+        groups.map(g =>
+          createElement("button", {
+            key: g,
+            onClick: () => setGroup(g),
+            style: {
+              background: g === group ? "#fcd34d" : "#3b82f6",
+              color: g === group ? "#1e3a8a" : "white",
+              border: "none",
+              padding: "0.5rem 1rem",
+              borderRadius: "0.5rem",
+              fontWeight: "bold",
+              cursor: "pointer"
+            }
+          }, g)
+        )
+      ),
+      createElement("table", {
+        style: {
+          width: "100%",
+          maxWidth: "600px",
+          margin: "0 auto",
+          background: "#3b82f6",
+          borderCollapse: "collapse",
+          borderRadius: "0.75rem",
+          overflow: "hidden"
+        }
+      },
+        createElement("thead", null,
+          createElement("tr", null,
+            ["排名", "战队", "胜", "负", "积分"].map(h =>
+              createElement("th", {
+                key: h,
+                style: {
+                  padding: "0.75rem",
+                  borderBottom: "2px solid #1e40af",
+                  fontWeight: "bold"
+                }
+              }, h)
+            )
+          )
+        ),
+        createElement("tbody", null,
+          current.map((row, idx) =>
+            createElement("tr", { key: idx },
+              ["rank", "team", "win", "loss", "score"].map(k =>
+                createElement("td", {
+                  key: k,
+                  style: {
+                    textAlign: "center",
+                    padding: "0.5rem",
+                    borderBottom: "1px solid #60a5fa"
+                  }
+                }, row[k])
+              )
+            )
+          )
+        )
+      )
+    )
+  );
+};
+
+
 const groupData = [
   ["微信公众号", "花梨电竞"],
   ["英勇之地", "926265440"], ["三角洲行动", "552750103"], ["Apex", "619091353"],
