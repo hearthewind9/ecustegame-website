@@ -676,20 +676,37 @@ const EventsPage = () => {
 
 const ShenjiangReportPage = () => {
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const form = e.target;
+  e.preventDefault();
+  const form = e.target;
 
-    const data = {
-      playerId: form[0].value,
-      hero: form[1].value,
-      reason: form[2].value,
-      email: form[3].value,
-      submittedAt: new Date().toISOString()
-    };
-
-    const filename = `shenjiang-${Date.now()}`;
-    await submitToGitHub(filename, data);
+  const data = {
+    id: form[0].value,
+    hero: form[1].value,
+    reason: form[2].value,
+    email: form[3].value,
+    time: new Date().toISOString()
   };
+
+  const result = await fetch("https://api.github.com/repos/hearthewind9/ecustegame-website/issues", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "token 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" // 🔐 临时测试用，部署后可用 GitHub App 授权
+    },
+    body: JSON.stringify({
+      title: "[Form Submission]",
+      body: JSON.stringify(data, null, 2)
+    })
+  });
+
+  if (result.ok) {
+    alert("感谢你的举报，我们将尽快处理！");
+    form.reset();
+  } else {
+    alert("提交失败，请稍后再试。");
+  }
+};
+
 
   return PageWrapper(
     createElement("div", {
