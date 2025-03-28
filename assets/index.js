@@ -3,7 +3,7 @@ function toBase64Unicode(str) {
 }
 
 async function submitToGitHub(filename, data) {
-  const token = "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";
+  const token = "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";
   const repo = "hearthewind9/ecustegame-website";
   const path = `submissions/${filename}.json`;
   const content = toBase64Unicode(JSON.stringify(data, null, 2));
