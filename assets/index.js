@@ -673,41 +673,77 @@ const EventsPage = () => {
 
 const ShenjiangReportPage = () => {
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  const form = e.target;
+    e.preventDefault();
+    const form = e.target;
 
-  const data = {
-    id: form[0].value,
-    hero: form[1].value,
-    reason: form[2].value,
-    email: form[3].value,
-    time: new Date().toISOString()
+    const formData = {
+      id: form[0].value,
+      hero: form[1].value,
+      reason: form[2].value,
+      email: form[3].value,
+      time: new Date().toISOString()
+    };
+
+    const filename = `shenjiang-${Date.now()}.json`;
+    await submitToGitHub(filename, formData);
+    form.reset();
   };
 
-  const result = await fetch("https://api.github.com/repos/hearthewind9/ecustegame-website/dispatches", {
-    method: "POST",
-    headers: {
-      "Accept": "application/vnd.github.everest-preview+json",
-      "Authorization": "Bearer ghp_xxx",  // 本地测试时可写，部署上线前删掉
-      "Content-Type": "application/json"
+  return PageWrapper(
+    createElement("div", {
+      style: {
+        minHeight: "100vh",
+        background: "#f9fafb",
+        padding: "2rem",
+        color: "#1e3a8a"
+      }
     },
-    body: JSON.stringify({
-    event_type: "submit-form",
-    client_payload: {
-      secret: "shenj!ang2025-secret",  // 和仓库 secret 一致
-      filename: `shenjiang-${Date.now()}.json`,
-      data: JSON.stringify(formData)
-    }
-  })
-})
-
-  if (result.ok) {
-    alert("感谢你的举报，我们将尽快处理！");
-    form.reset();
-  } else {
-    alert("提交失败，请稍后再试。");
-  }
+      createElement("h2", { style: { textAlign: "center", marginBottom: "1rem" } }, "神将杯炸鱼举报表单"),
+      createElement("form", {
+        style: { maxWidth: 600, margin: "0 auto", display: "flex", flexDirection: "column", gap: "1rem" },
+        onSubmit: handleSubmit
+      },
+        createElement("input", {
+          type: "text",
+          required: true,
+          placeholder: "举报选手ID",
+          style: baseInputStyle
+        }),
+        createElement("input", {
+          type: "text",
+          required: true,
+          placeholder: "该选手本场比赛选用英雄",
+          style: baseInputStyle
+        }),
+        createElement("textarea", {
+          required: true,
+          placeholder: "举报理由，如：第3回合穿墙，第5回合道具异常使用",
+          rows: 4,
+          style: { ...baseInputStyle, resize: "vertical" }
+        }),
+        createElement("input", {
+          type: "email",
+          required: true,
+          placeholder: "你的邮箱（用于反馈）",
+          style: baseInputStyle
+        }),
+        createElement("button", {
+          type: "submit",
+          style: {
+            background: "#1e3a8a",
+            color: "white",
+            padding: "0.75rem 1.5rem",
+            border: "none",
+            borderRadius: "0.5rem",
+            fontWeight: "bold",
+            cursor: "pointer"
+          }
+        }, "提交举报")
+      )
+    )
+  );
 };
+
 
 
   return PageWrapper(
