@@ -30,9 +30,9 @@ const NavBar = () => createElement(
     { style: { display: "flex", gap: "1rem", fontSize: "0.9rem" } },
     ["/news", "/games", "/schedule", "/ranking", "/events", "/contact"].map((to, i) =>
       createElement(
-        Link,
-        { to, style: { color: "white" }, key: i },
-        ["公告", "比赛", "赛程查询", "实时积分榜", "活动", "联系我们"][i]
+        to === "/games"
+          ? createElement("a", { href: "/games.html", style: { color: "white" }, key: i }, "比赛")
+          : createElement(Link, { to, style: { color: "white" }, key: i }, ["公告", "比赛", "赛程查询", "实时积分榜", "活动", "联系我们"][i])
       )
     )
   )
