@@ -668,24 +668,34 @@ const ShenjiangReportPage = () => {
     )
   );
 };
-const Recruit2025Page = () => PageWrapper(
-  createElement("div", {
-    style: {
-      minHeight: "100vh",
-      background: "#f9fafb",
-      padding: "2rem",
-      color: "#1e3a8a"
-    }
-  },
-    createElement("div", { style: { maxWidth: 800, margin: "0 auto" } },
-      createElement("h2", { style: { fontSize: "1.5rem", marginBottom: "1rem" } }, "2025电竞部春季招新"),
-      createElement("p", { style: { fontSize: "1rem", lineHeight: "1.6" } },
-        "想加入热血与荣耀并存的电竞大家庭？2025春季招新正式启动！电竞部现面向全校招募运营、解说、赛事策划、视频剪辑、赛事选手等多个方向的新成员。不限年级与经验，只要你热爱电竞、有想法有干劲，我们都欢迎你！",
-        "报名截止日期：2025年3月25日。具体报名方式见群公告或线下宣传展位。"
+const Recruit2025Page = () => {
+  return PageWrapper(
+    createElement("div", {
+      style: {
+        minHeight: "100vh",
+        background: "#f9fafb",
+        padding: "2rem",
+        color: "#1e3a8a"
+      }
+    },
+      createElement("h2", { style: { textAlign: "center", marginBottom: "1rem" } }, "2025电竞部春季招新"),
+      createElement("div", {
+        style: { maxWidth: "800px", margin: "0 auto" }
+      },
+        // 这里是招新问卷的 iframe
+        createElement("iframe", {
+          src: "https://wj.qq.com/s2/19552135/a235/", // 你的招新问卷链接
+          style: {
+            width: "100%",
+            height: "1200px",   // 视实际表单长度可调整
+            border: "none",
+            borderRadius: "0.5rem"
+          }
+        })
       )
     )
-  )
-);
+  );
+};
 
 const baseInputStyle = {
   padding: "0.75rem",
