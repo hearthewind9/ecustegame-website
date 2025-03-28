@@ -3,27 +3,25 @@ function toBase64Unicode(str) {
 }
 
 async function submitToGitHub(filename, data) {
-  const token = "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";
   const repo = "hearthewind9/ecustegame-website";
   const path = `submissions/${filename}.json`;
   const content = toBase64Unicode(JSON.stringify(data, null, 2));
 
-  const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
-    method: "PUT",
-    headers: {
-      "Authorization": `token ${token}`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      message: `Add ${filename}`,
-      content,
-      committer: {
-        name: "ecustegame-bot",
-        email: "bot@ecustegame.top"
-      }
-    })
-  });
-
+  const res = await fetch("https://api.github.com/repos/hearthewind9/ecustegame-website/dispatches", {
+  method: "POST",
+  headers: {
+    "Accept": "application/vnd.github.everest-preview+json",
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    event_type: "submit-form",
+    client_payload: {
+      secret: "shenj!ang2025-secret",  // 和仓库 secret 一致
+      filename: `shenjiang-${Date.now()}.json`,
+      data: JSON.stringify(formData)
+    }
+  })
+})
   if (!res.ok) {
     alert("❌ 提交失败，请稍后再试");
     console.error(await res.json());
@@ -687,17 +685,22 @@ const ShenjiangReportPage = () => {
     time: new Date().toISOString()
   };
 
-  const result = await fetch("https://api.github.com/repos/hearthewind9/ecustegame-website/issues", {
+  const result = await fetch("https://api.github.com/repos/hearthewind9/ecustegame-website/dispatches", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
-      Authorization: "token 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" // 🔐 临时测试用，部署后可用 GitHub App 授权
+      "Accept": "application/vnd.github.everest-preview+json",
+      "Authorization": "Bearer ghp_xxx",  // 本地测试时可写，部署上线前删掉
+      "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      title: "[Form Submission]",
-      body: JSON.stringify(data, null, 2)
-    })
-  });
+    event_type: "submit-form",
+    client_payload: {
+      secret: "shenj!ang2025-secret",  // 和仓库 secret 一致
+      filename: `shenjiang-${Date.now()}.json`,
+      data: JSON.stringify(formData)
+    }
+  })
+})
 
   if (result.ok) {
     alert("感谢你的举报，我们将尽快处理！");
