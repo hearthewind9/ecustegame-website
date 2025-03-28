@@ -28,16 +28,16 @@ const NavBar = () => createElement(
   createElement(
     "nav",
     { style: { display: "flex", gap: "1rem", fontSize: "0.9rem" } },
-    ["/news", "/games", "/schedule", "/ranking", "/events", "/contact"].map((to, i) =>
-      createElement(
-        Link,
-        { to, style: { color: "white" }, key: i },
-        ["公告", "比赛", "赛程查询", "实时积分榜", "活动", "联系我们"][i]
-      )
-    )
+    [
+      createElement(Link, { to: "/news", key: 0, style: { color: "white", textDecoration: "none", padding: "0 0.5rem" } }, "公告"),
+      createElement("a", { href: "games.html", key: 1, style: { color: "white", textDecoration: "none", padding: "0 0.5rem" } }, "比赛"),
+      createElement(Link, { to: "/schedule", key: 2, style: { color: "white", textDecoration: "none", padding: "0 0.5rem" } }, "赛程查询"),
+      createElement(Link, { to: "/ranking", key: 3, style: { color: "white", textDecoration: "none", padding: "0 0.5rem" } }, "实时积分榜"),
+      createElement(Link, { to: "/events", key: 4, style: { color: "white", textDecoration: "none", padding: "0 0.5rem" } }, "活动"),
+      createElement(Link, { to: "/contact", key: 5, style: { color: "white", textDecoration: "none", padding: "0 0.5rem" } }, "联系我们")
+    ]
   )
 );
-
 const Footer = () =>
   createElement("footer", null, "© 2025 电竞部 ｜ 技术支持：Hearthewind");
 
