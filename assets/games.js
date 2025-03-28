@@ -51,15 +51,19 @@ const games = [
   }
 ];
 
-const container = document.getElementById('game-list');
-games.forEach(g => {
-  const div = document.createElement('div');
-  div.className = 'card';
-  div.innerHTML = `
-    <h2>📅【${g.year}】${g.title}</h2>
-    <p>🎮 项目：${g.game}</p>
-    <p>📝 简介：${g.desc}</p>
-    <a href="${g.link}">查看详情</a>
-  `;
-  container.appendChild(div);
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('game-list');
+  if (!container) return;
+
+  games.forEach(g => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML = `
+      <h2>📅【${g.year}】${g.title}</h2>
+      <p>🎮 项目：${g.game}</p>
+      <p>${g.desc}</p>
+      <a href="${g.link}" target="_blank">查看详情</a>
+    `;
+    container.appendChild(div);
+  });
 });
