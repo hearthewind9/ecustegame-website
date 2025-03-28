@@ -2,18 +2,23 @@ function toBase64Unicode(str) {
   return btoa(unescape(encodeURIComponent(str)));
 }
 
+function toBase64Unicode(str) {
+  return btoa(unescape(encodeURIComponent(str)));
+}
+
+// NOTE: 你本地测试时需要写 Authorization, 上线后把它删掉/改为后端中转
 async function submitToGitHub(filename, data) {
   const res = await fetch("https://api.github.com/repos/hearthewind9/ecustegame-website/dispatches", {
     method: "POST",
     headers: {
       "Accept": "application/vnd.github.everest-preview+json",
       "Content-Type": "application/json",
-      // "Authorization": "Bearer ghp_..." // 本地测试写，部署时一定要删除
+      // "Authorization": "Bearer ghp_xxx_xxx_xxx" // NOTE: 仅本地测试
     },
     body: JSON.stringify({
       event_type: "submit-form",
       client_payload: {
-        secret: "shenj!ang2025-secret", // 要与 GitHub Actions 校验一致
+        secret: "shenj!ang2025-secret", // Actions 校验用
         filename: filename,
         data: JSON.stringify(data, null, 2)
       }
@@ -22,12 +27,12 @@ async function submitToGitHub(filename, data) {
 
   if (!res.ok) {
     alert("❌ 提交失败，请稍后再试");
+    // 打印错误信息
     console.error(await res.json());
   } else {
     alert("✅ 提交成功，感谢你的反馈！");
   }
 }
-
 
 const { createElement, useEffect, useState } = React;
 const { createRoot } = ReactDOM;
@@ -671,11 +676,13 @@ const EventsPage = () => {
   );
 };
 
+
 const ShenjiangReportPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
 
+    // 收集表单数据
     const formData = {
       id: form[0].value,
       hero: form[1].value,
@@ -684,8 +691,13 @@ const ShenjiangReportPage = () => {
       time: new Date().toISOString()
     };
 
+    // 生成文件名
     const filename = `shenjiang-${Date.now()}.json`;
+
+    // 调用 submitToGitHub
     await submitToGitHub(filename, formData);
+
+    // 重置表单
     form.reset();
   };
 
