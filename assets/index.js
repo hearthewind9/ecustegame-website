@@ -32,7 +32,7 @@ const NavBar = () => createElement(
       createElement(
         to === "/games"
           ? createElement("a", { href: "/games.html", style: { color: "white" }, key: i }, "比赛")
-          : to === "/games" ? createElement("a", { href: "/games.html", style: { color: "white" }, key: i }, "比赛") : createElement(Link, { to, style: { color: "white" }, key: i }, (["公告", "比赛", "赛程查询", "实时积分榜", "活动", "联系我们"][i]))
+          : to === "/games" ? createElement("a", { href: "/games.html", style: { color: "white" }, key: i }, "比赛") : createElement(Link, { to, style: { color: "white" }, key: i }, (() => { const text = ["公告", "比赛", "赛程查询", "实时积分榜", "活动", "联系我们"][i]; return to === "/games" ? createElement("a", { href: "/games.html", style: { color: "white" }, key: i }, text) : createElement(Link, { to, style: { color: "white" }, key: i }, text); })())
       )
     )
   )
@@ -96,7 +96,7 @@ const Home = () => {
                 fontWeight: "bold"
               }
             },
-            (["公告", "比赛", "赛程查询", "实时积分榜", "活动", "联系我们"][i])
+            (() => { const text = ["公告", "比赛", "赛程查询", "实时积分榜", "活动", "联系我们"][i]; return to === "/games" ? createElement("a", { href: "/games.html", style: { color: "white" }, key: i }, text) : createElement(Link, { to, style: { color: "white" }, key: i }, text); })()
           )
         )
       ),
