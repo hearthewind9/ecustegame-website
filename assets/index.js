@@ -388,7 +388,70 @@ const RankingPage = () => {
   );
 };
 
+const NewsPage = () => {
+  const news = [
+    { title: "2025春季赛比赛通知", date: "2025-03-20" },
+    { title: "2024秋季赛英雄联盟赛制更新", date: "2024-10-05" },
+    { title: "2024电竞部秋季纳新报名开启", date: "2024-09-01" },
+    { title: "2024春季赛结束公告", date: "2024-05-18" },
+    { title: "2023电竞部秋季纳新结果公布", date: "2023-11-10" },
+    { title: "2023年春季英雄联盟比赛预告", date: "2023-03-15" }
+  ];
 
+  const sorted = news.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  return PageWrapper(
+    createElement("div", {
+      style: {
+        minHeight: "100vh",
+        background: "#f1f5f9",
+        padding: "2rem",
+        color: "#1e3a8a"
+      }
+    },
+      createElement("h2", {
+        style: {
+          textAlign: "center",
+          fontSize: "1.5rem",
+          marginBottom: "1.5rem"
+        }
+      }, "公告通知"),
+      createElement("div", {
+        style: {
+          maxWidth: 800,
+          margin: "0 auto",
+          background: "white",
+          border: "1px solid #cbd5e1",
+          borderRadius: "0.5rem"
+        }
+      },
+        createElement("div", {
+          style: {
+            background: "#e2e8f0",
+            padding: "0.75rem 1rem",
+            fontWeight: "bold",
+            borderBottom: "1px solid #cbd5e1"
+          }
+        }, "管理"),
+        sorted.map((item, idx) =>
+          createElement("div", {
+            key: idx,
+            style: {
+              display: "flex",
+              justifyContent: "space-between",
+              padding: "0.75rem 1rem",
+              borderBottom: idx === sorted.length - 1 ? "none" : "1px solid #e5e7eb",
+              fontSize: "0.95rem"
+            }
+          },
+            createElement("span", null, item.title),
+            createElement("span", null, item.date)
+          )
+        )
+      )
+    )
+  );
+};
 const groupData = [
   ["微信公众号", "花梨电竞"],
   ["英勇之地", "926265440"], ["三角洲行动", "552750103"], ["Apex", "619091353"],
@@ -450,6 +513,7 @@ const App = () => createElement(
     null,
     createElement(Route, { exact: true, path: "/", component: Home }),
     createElement(Route, { path: "/schedule", component: SchedulePage }),
+    createElement(Route, { path: "/news" , component : NewsPage}),
     createElement(Route, { path: "/contact", component: ContactPage }),
     createElement(Route, { path: "/ranking", component: RankingPage }),
     createElement(Route, { path: "/lol", component: () => Page({ title: "英雄联盟页面（开发中）" }) }),
