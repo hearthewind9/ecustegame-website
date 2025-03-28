@@ -1,3 +1,32 @@
+async function submitToGitHub(filename, data) {
+  const token = "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"; // 仅开发用
+  const repo = "hearthewind9/ecustegame-website"; // 你的用户名/仓库
+  const path = `submissions/${filename}.json`;
+  const content = btoa(JSON.stringify(data, null, 2));
+
+  const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+    method: "PUT",
+    headers: {
+      "Authorization": `token ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      message: `Add ${filename}`,
+      content,
+      committer: {
+        name: "ecustegame-bot",
+        email: "bot@ecustegame.top"
+      }
+    })
+  });
+
+  if (!res.ok) {
+    alert("❌ 提交失败，请稍后再试");
+    console.error(await res.json());
+  } else {
+    alert("✅ 提交成功，感谢你的反馈！");
+  }
+}
 
 const { createElement, useEffect, useState } = React;
 const { createRoot } = ReactDOM;
@@ -641,63 +670,77 @@ const EventsPage = () => {
   );
 };
 
-const ShenjiangReportPage = () => PageWrapper(
-  createElement("div", {
-    style: {
-      minHeight: "100vh",
-      background: "#f9fafb",
-      padding: "2rem",
-      color: "#1e3a8a"
-    }
-  },
-    createElement("h2", { style: { textAlign: "center", marginBottom: "1rem" } }, "神将杯炸鱼举报表单"),
-    createElement("form", {
-      style: { maxWidth: 600, margin: "0 auto", display: "flex", flexDirection: "column", gap: "1rem" },
-      onSubmit: e => {
-        e.preventDefault();
-        alert("感谢你的举报，我们将尽快处理并反馈至你的邮箱。");
+const ShenjiangReportPage = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+
+    const data = {
+      playerId: form[0].value,
+      hero: form[1].value,
+      reason: form[2].value,
+      email: form[3].value,
+      submittedAt: new Date().toISOString()
+    };
+
+    const filename = `shenjiang-${Date.now()}`;
+    await submitToGitHub(filename, data);
+  };
+
+  return PageWrapper(
+    createElement("div", {
+      style: {
+        minHeight: "100vh",
+        background: "#f9fafb",
+        padding: "2rem",
+        color: "#1e3a8a"
       }
     },
-      createElement("input", {
-        type: "text",
-        required: true,
-        placeholder: "举报选手ID",
-        style: baseInputStyle
-      }),
-      createElement("input", {
-        type: "text",
-        required: true,
-        placeholder: "该选手本场比赛选用英雄",
-        style: baseInputStyle
-      }),
-      createElement("textarea", {
-        required: true,
-        placeholder: "举报理由，如：第3回合穿墙，第5回合道具异常使用",
-        rows: 4,
-        style: { ...baseInputStyle, resize: "vertical" }
-      }),
-      createElement("input", {
-        type: "email",
-        required: true,
-        placeholder: "你的邮箱（用于反馈）",
-        style: baseInputStyle
-      }),
-      createElement("button", {
-        type: "submit",
-        style: {
-          background: "#1e3a8a",
-          color: "white",
-          padding: "0.75rem 1.5rem",
-          border: "none",
-          borderRadius: "0.5rem",
-          fontWeight: "bold",
-          cursor: "pointer"
-        }
-      }, "提交举报")
+      createElement("h2", { style: { textAlign: "center", marginBottom: "1rem" } }, "神将杯炸鱼举报表单"),
+      createElement("form", {
+        style: { maxWidth: 600, margin: "0 auto", display: "flex", flexDirection: "column", gap: "1rem" },
+        onSubmit: handleSubmit
+      },
+        createElement("input", {
+          type: "text",
+          required: true,
+          placeholder: "举报选手ID",
+          style: baseInputStyle
+        }),
+        createElement("input", {
+          type: "text",
+          required: true,
+          placeholder: "该选手本场比赛选用英雄",
+          style: baseInputStyle
+        }),
+        createElement("textarea", {
+          required: true,
+          placeholder: "举报理由，如：第3回合穿墙，第5回合道具异常使用",
+          rows: 4,
+          style: { ...baseInputStyle, resize: "vertical" }
+        }),
+        createElement("input", {
+          type: "email",
+          required: true,
+          placeholder: "你的邮箱（用于反馈）",
+          style: baseInputStyle
+        }),
+        createElement("button", {
+          type: "submit",
+          style: {
+            background: "#1e3a8a",
+            color: "white",
+            padding: "0.75rem 1.5rem",
+            border: "none",
+            borderRadius: "0.5rem",
+            fontWeight: "bold",
+            cursor: "pointer"
+          }
+        }, "提交举报")
+      )
     )
-  )
-);
-
+  );
+};
 const Recruit2025Page = () => PageWrapper(
   createElement("div", {
     style: {
