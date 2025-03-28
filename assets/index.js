@@ -44,109 +44,43 @@ const Footer = () =>
 const PageWrapper = (children) =>
   createElement(React.Fragment, null, children, createElement(Footer));
 
-const Home = () => {
-  const [index, setIndex] = useState(0);
-  const news = [
-    "🔥 校内英雄联盟联赛即将开战！",
-    "📢 2025春季赛报名已开启！",
-    "🎉 电竞部荣获市级最佳组织奖！"
-  ];
-  useEffect(() => {
-    const interval = setInterval(() => setIndex(i => (i + 1) % news.length), 3000);
-    return () => clearInterval(interval);
-  }, []);
-  return PageWrapper(
-    createElement(
-      "div",
-      {
-        style: {
-          minHeight: "100vh",
-          background: "linear-gradient(to bottom right, #60a5fa, #3b82f6)",
-          padding: "2rem",
-          color: "white"
-        }
-      },
-      createElement(
-        "h1",
-        { style: { fontSize: "2rem", textAlign: "center", marginBottom: "1.5rem" } },
-        "ECUST 电竞部"
-      ),
-      createElement(
-        "div",
-        {
-          style: {
-            display: "flex",
-            justifyContent: "center",
-            gap: "1rem",
-            flexWrap: "wrap",
-            marginBottom: "1.5rem"
-          }
-        },
-        ["/news", "/games", "/schedule", "/ranking", "/events", "/contact"].map((to, i) =>
-          createElement(
-            Link,
-            {
-              to,
-              key: i,
-              style: {
-                background: "white",
-                color: "#2563eb",
-                padding: "0.5rem 1rem",
-                borderRadius: "999px",
-                fontWeight: "bold"
-              }
-            },
-            ["公告", "比赛", "赛程查询", "实时积分榜", "活动", "联系我们"][i]
-          )
-        )
-      ),
-      createElement(
-        "div",
-        {
-          style: {
-            background: "white",
-            color: "#2563eb",
-            borderRadius: "1rem",
-            padding: "1rem",
-            textAlign: "center",
-            maxWidth: 500,
-            margin: "0 auto"
-          }
-        },
-        createElement("p", null, news[index])
-      ),
-      createElement(
-        "div",
-        {
-          style: {
-            display: "flex",
-            justifyContent: "center",
-            gap: "1rem",
-            flexWrap: "wrap",
-            marginTop: "2rem"
-          }
-        },
-        ["/lol", "/valorant", "/cs2", "/ow"].map((to, i) =>
-          createElement(
-            Link,
-            {
-              to,
-              key: i,
-              style: {
-                background: "#1e3a8a",
-                color: "white",
-                padding: "0.75rem 1.25rem",
-                borderRadius: "0.75rem",
-                fontWeight: "bold"
-              }
-            },
-            ["英雄联盟", "无畏契约", "CS2", "守望先锋"][i]
-          )
+const groupData = [
+  ["微信公众号", "花梨电竞"],
+  ["英勇之地", "926265440"], ["三角洲行动", "552750103"], ["Apex", "619091353"],
+  ["绝地求生", "343683662"], ["最终幻想14", "659946675"], ["MC", "484506558"],
+  ["星际", "581341861"], ["LOL", "532365245"], ["DOTA2", "547342217"],
+  ["炉石（新）", "658783577"], ["炉石（老）", "372511770"], ["CSGO", "312064523"],
+  ["王者荣耀", "626314374"], ["war3", "104049397"], ["CFM", "563277221"],
+  ["QQ飞车", "694464743"], ["战舰世界工会", "ECUST"], ["OW", "626180600"],
+  ["R6", "115950211"], ["命运2公会", "941699421"], ["永劫无间振刀", "1017681895"],
+  ["瓦洛兰特", "639366489"], ["战地", "764552791"], ["死锁DeadLock", "826542331"],
+  ["lolm", "604345565"], ["COD（双端均可）", "862900842"]
+];
+
+const ContactPage = () => PageWrapper(
+  createElement("div", {
+    style: {
+      minHeight: "100vh",
+      background: "#eff6ff",
+      padding: "2rem",
+      color: "#1e3a8a"
+    }
+  },
+    createElement("h2", { style: { textAlign: "center" } }, "各大游戏群请参考以下群号，大家玩的开心！"),
+    createElement("p", { style: { maxWidth: 700, margin: "1rem auto", fontSize: "0.9rem", textAlign: "center" } },
+      "首先，各位要清楚，这些群不知道还活没活着，活着可能也是些老登，电竞部只做宣传。
+各位如有需求，可以找到同好，拉建新群，联系我来改公告宣传哝！"
+    ),
+    createElement("div", { className: "group-list" },
+      groupData.map(([name, id], idx) =>
+        createElement("div", { className: "group-item", key: idx },
+          createElement("strong", null, name),
+          createElement("div", null, id)
         )
       )
     )
-  );
-};
+  )
+);
 
 const Page = ({ title }) =>
   PageWrapper(
@@ -172,17 +106,13 @@ const App = () => createElement(
   createElement(
     Switch,
     null,
-    createElement(Route, { exact: true, path: "/", component: Home }),
-    createElement(Route, { path: "/lol", component: () => Page({ title: "英雄联盟页面（开发中）" }) }),
-    createElement(Route, { path: "/valorant", component: () => Page({ title: "无畏契约页面（开发中）" }) }),
-    createElement(Route, { path: "/cs2", component: () => Page({ title: "CS2 页面（开发中）" }) }),
-    createElement(Route, { path: "/ow", component: () => Page({ title: "守望先锋页面（开发中）" }) }),
-    createElement(Route, { path: "/schedule", component: () => Page({ title: "赛程查询页面" }) }),
-    createElement(Route, { path: "/news", component: () => Page({ title: "公告页面（待建设）" }) }),
-    createElement(Route, { path: "/games", component: () => Page({ title: "比赛页面（待建设）" }) }),
-    createElement(Route, { path: "/ranking", component: () => Page({ title: "实时积分榜页面（开发中）" }) }),
-    createElement(Route, { path: "/events", component: () => Page({ title: "活动页面（待填充）" }) }),
-    createElement(Route, { path: "/contact", component: () => Page({ title: "联系我们页面" }) })
+    createElement(Route, { exact: true, path: "/", component: () => Page({ title: "首页（开发中）" }) }),
+    createElement(Route, { path: "/contact", component: ContactPage }),
+    createElement(Route, { path: "/news", component: () => Page({ title: "公告页面（开发中）" }) }),
+    createElement(Route, { path: "/games", component: () => Page({ title: "比赛页面（开发中）" }) }),
+    createElement(Route, { path: "/schedule", component: () => Page({ title: "赛程页面（开发中）" }) }),
+    createElement(Route, { path: "/ranking", component: () => Page({ title: "积分榜页面（开发中）" }) }),
+    createElement(Route, { path: "/events", component: () => Page({ title: "活动页面（开发中）" }) })
   )
 );
 
