@@ -1,8 +1,12 @@
+function toBase64Unicode(str) {
+  return btoa(unescape(encodeURIComponent(str)));
+}
+
 async function submitToGitHub(filename, data) {
-  const token = "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"; // 仅开发用
-  const repo = "hearthewind9/ecustegame-website"; // 你的用户名/仓库
+  const token = "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";
+  const repo = "hearthewind9/ecustegame-website";
   const path = `submissions/${filename}.json`;
-  const content = btoa(JSON.stringify(data, null, 2));
+  const content = toBase64Unicode(JSON.stringify(data, null, 2));
 
   const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
     method: "PUT",
