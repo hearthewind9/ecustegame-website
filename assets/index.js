@@ -199,7 +199,44 @@ const Home = () => {
     )
   );
 };
+const quotes = [
+  "华东理工大学官方电竞组织，聚集热爱电竞的你",
+  "致十七岁的梦想，坚持的岁月和不灭的斗志。",
+  "致膝盖上的擦伤，童年的时光和青春心事"
+];
 
+const [quoteIndex, setQuoteIndex] = useState(0);
+
+useEffect(() => {
+  const interval = setInterval(() => {
+    setQuoteIndex((prev) => (prev + 1) % quotes.length);
+  }, 3000);
+  return () => clearInterval(interval);
+}, []);
+
+return PageWrapper(
+  <>
+    {/* 原本内容 */}
+    <div style={{
+      marginTop: "3rem",
+      padding: "1.5rem",
+      borderRadius: "1rem",
+      backdropFilter: "blur(8px)",
+      background: "rgba(255, 255, 255, 0.2)",
+      color: "white",
+      textAlign: "center",
+      fontFamily: "'DengXian', sans-serif",
+      fontSize: "1.2rem",
+      fontWeight: "500",
+      maxWidth: "800px",
+      marginLeft: "auto",
+      marginRight: "auto",
+      transition: "opacity 0.5s ease"
+    }}>
+      {quotes[quoteIndex]}
+    </div>
+  </>
+);
 
 const SchedulePage = () => {
   const [query, setQuery] = useState("");
