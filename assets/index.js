@@ -55,9 +55,9 @@ const Home = () => {
   ];
 
   const quotes = [
-    "华东理工大学官方电竞组织，聚集热爱电竞的你",
-    "致十七岁的梦想，坚持的岁月和不灭的斗志。",
-    "致膝盖上的擦伤，童年的时光和青春心事"
+    "华东理工大学官方电竞组织，聚集热爱电竞的你。",
+    "————致十七岁的梦想，坚持的岁月和不灭的斗志。",
+    "————致膝盖上的擦伤，童年的时光和青春心事。"
   ];
 
   useEffect(() => {
@@ -217,8 +217,7 @@ const Home = () => {
             marginTop: "3rem",
             padding: "1.5rem",
             borderRadius: "1rem",
-            backdropFilter: "blur(8px)",
-            background: "rgba(255, 255, 255, 0.2)",
+            background:"transparent",
             color: "white",
             textAlign: "center",
             fontFamily: "'DengXian', 'Microsoft YaHei', sans-serif",
