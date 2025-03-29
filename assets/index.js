@@ -46,15 +46,29 @@ const PageWrapper = (children) =>
 
 const Home = () => {
   const [index, setIndex] = useState(0);
+  const [quoteIndex, setQuoteIndex] = useState(0);
+
   const news = [
     "🔥 校内无畏契约“神将杯”即将开战！",
     "📢 电竞部2025春季招新已开启！",
     "🎉 恭喜BGDK获得瓦理杯S1冠军！"
   ];
+
+  const quotes = [
+    "华东理工大学官方电竞组织，聚集热爱电竞的你",
+    "致十七岁的梦想，坚持的岁月和不灭的斗志。",
+    "致膝盖上的擦伤，童年的时光和青春心事"
+  ];
+
   useEffect(() => {
-    const interval = setInterval(() => setIndex(i => (i + 1) % news.length), 3000);
-    return () => clearInterval(interval);
+    const newsInterval = setInterval(() => setIndex(i => (i + 1) % news.length), 3000);
+    const quoteInterval = setInterval(() => setQuoteIndex(i => (i + 1) % quotes.length), 4000);
+    return () => {
+      clearInterval(newsInterval);
+      clearInterval(quoteInterval);
+    };
   }, []);
+
   return PageWrapper(
     createElement(
       "div",
@@ -195,48 +209,32 @@ const Home = () => {
             ["英雄联盟", "无畏契约", "CS2", "守望先锋"][i]
           )
         )
+      ),
+      createElement(
+        "div",
+        {
+          style: {
+            marginTop: "3rem",
+            padding: "1.5rem",
+            borderRadius: "1rem",
+            backdropFilter: "blur(8px)",
+            background: "rgba(255, 255, 255, 0.2)",
+            color: "white",
+            textAlign: "center",
+            fontFamily: "'DengXian', 'Microsoft YaHei', sans-serif",
+            fontSize: "1.2rem",
+            fontWeight: "500",
+            maxWidth: "800px",
+            marginLeft: "auto",
+            marginRight: "auto",
+            transition: "opacity 0.5s ease"
+          }
+        },
+        quotes[quoteIndex]
       )
     )
   );
 };
-const quotes = [
-  "华东理工大学官方电竞组织，聚集热爱电竞的你",
-  "致十七岁的梦想，坚持的岁月和不灭的斗志。",
-  "致膝盖上的擦伤，童年的时光和青春心事"
-];
-
-const [quoteIndex, setQuoteIndex] = useState(0);
-
-useEffect(() => {
-  const interval = setInterval(() => {
-    setQuoteIndex((prev) => (prev + 1) % quotes.length);
-  }, 3000);
-  return () => clearInterval(interval);
-}, []);
-
-return PageWrapper(
-  <>
-    {/* 原本内容 */}
-    <div style={{
-      marginTop: "3rem",
-      padding: "1.5rem",
-      borderRadius: "1rem",
-      backdropFilter: "blur(8px)",
-      background: "rgba(255, 255, 255, 0.2)",
-      color: "white",
-      textAlign: "center",
-      fontFamily: "'DengXian', sans-serif",
-      fontSize: "1.2rem",
-      fontWeight: "500",
-      maxWidth: "800px",
-      marginLeft: "auto",
-      marginRight: "auto",
-      transition: "opacity 0.5s ease"
-    }}>
-      {quotes[quoteIndex]}
-    </div>
-  </>
-);
 
 const SchedulePage = () => {
   const [query, setQuery] = useState("");
