@@ -312,11 +312,11 @@ const RankingPage = () => {
       { rank: 5, team: "少年先锋队",win: 0, loss: 0,score: 0}
     ],
     "B组": [
-      { rank: 1, team: "绝对是坤坤队", win: 1, loss: 0, score: 1  }, 
-      { rank: 2, team: "GWG", win: 1, loss: 0, score: 1 },
-      { rank: 3, team: "把饭拼好给你", win: 1, loss: 2, score: 1},
+      { rank: 1, team: "绝对是坤坤队", win: 1, loss: 0, score: 2  }, 
+      { rank: 2, team: "GWG", win: 1, loss: 0, score: 3 },
+      { rank: 3, team: "把饭拼好给你", win: 1, loss: 2, score: -1},
       { rank: 4, team: "不叫妈妈队", win: 0, loss: 0, score: 0 },
-      { rank: 5, team: "糖豆人队", win: 0, loss: 1, score: 0 }
+      { rank: 5, team: "糖豆人队", win: 0, loss: 1, score: -4 }
     ],
     "C组": [
       { rank: 1, team: "采一朵莲", win: 0, loss: 0, score: 0 },
