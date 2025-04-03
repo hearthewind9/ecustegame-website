@@ -239,8 +239,9 @@ const SchedulePage = () => {
   const [query, setQuery] = useState("");
   const [schedule, setSchedule] = useState([]);
   useEffect(() => {
-    fetch("https://cdn.jsdelivr.net/gh/hearthewind9/ecustegame-website/schedule.json")
-      .then(res => res.json()).then(data => setSchedule(data));
+    fetch("https://cdn.jsdelivr.net/gh/hearthewind9/ecustegame-website/schedule.json?t=" + new Date().getTime())
+    .then(res => res.json())
+    .then(data => setSchedule(data));
   }, []);
   const filtered = schedule.filter(row =>
     query === "" || Object.values(row).some(cell =>
