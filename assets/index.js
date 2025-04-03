@@ -238,18 +238,24 @@ const Home = () => {
 const SchedulePage = () => {
   const [query, setQuery] = useState("");
   const [schedule, setSchedule] = useState([]);
+
   useEffect(() => {
-    fetch("https://cdn.jsdelivr.net/gh/hearthewind9/ecustegame-website/schedule.json?t=" + Date.now(),{
+    fetch("https://ecustegame.top/public/data/schedule.json?t=" + Date.now(), {
       cache: "no-store"
     })
-    .then(res => res.json())
-    .then(data => setSchedule(data));
+      .then(res => res.json())
+      .then(data => {
+        console.log("✅ 成功加载赛程数据：", data);
+        setSchedule(data);
+      });
   }, []);
+
   const filtered = schedule.filter(row =>
     query === "" || Object.values(row).some(cell =>
       cell && cell.toString().replace(/\s+/g, '').toLowerCase().includes(query.replace(/\s+/g, '').toLowerCase())
     )
   );
+
   return PageWrapper(
     createElement(
       "div",
@@ -303,6 +309,7 @@ const SchedulePage = () => {
     )
   );
 };
+
 
 const RankingPage = () => {
   const [group, setGroup] = useState("A组");
