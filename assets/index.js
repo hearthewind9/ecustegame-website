@@ -239,7 +239,9 @@ const SchedulePage = () => {
   const [query, setQuery] = useState("");
   const [schedule, setSchedule] = useState([]);
   useEffect(() => {
-    fetch("https://cdn.jsdelivr.net/gh/hearthewind9/ecustegame-website/schedule.json?t=" + new Date().getTime())
+    fetch("https://cdn.jsdelivr.net/gh/hearthewind9/ecustegame-website/schedule.json?t=" + Date.now(),{
+      cache: "no-store"
+    })
     .then(res => res.json())
     .then(data => setSchedule(data));
   }, []);
