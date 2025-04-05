@@ -315,11 +315,11 @@ const RankingPage = () => {
   const [group, setGroup] = useState("A组");
   const data = {
     "A组": [
-      { rank: 1, team: "我是奶龙", win: 0, loss: 0, score: 0 },
-      { rank: 2, team: "第一五妹队", win: 0, loss: 0, score: 0 },
+      { rank: 1, team: "我是奶龙", win: 2, loss: 1, score: 5 },
+      { rank: 2, team: "第一五妹队", win: 0, loss: 3, score: -15 },
       { rank: 3, team: "玖幺传媒", win: 0, loss: 0, score: 0 },
-      { rank: 4, team: "练枪不如烧香", win: 0, loss: 0, score: 0 },
-      { rank: 5, team: "少年先锋队",win: 0, loss: 0,score: 0}
+      { rank: 4, team: "练枪不如烧香", win: 3, loss: 0, score: 5 },
+      { rank: 5, team: "少年先锋队",win: 1, loss: 2,score: 5}
     ],
     "B组": [
       { rank: 1, team: "GWG", win: 1, loss: 0, score: 3 },
@@ -329,15 +329,15 @@ const RankingPage = () => {
       { rank: 5, team: "糖豆人队", win: 0, loss: 1, score: -4 }
     ],
     "C组": [
-      { rank: 1, team: "采一朵莲", win: 0, loss: 0, score: 0 },
-      { rank: 2, team: "跑打队", win: 0, loss: 0, score: 0 },
-      { rank: 3, team: "别卷", win: 0, loss: 0, score: 0 },
-      { rank: 4, team: "T-star", win: 0, loss: 0, score: 0 },
+      { rank: 1, team: "采一朵莲", win: 1, loss: 0, score: 3 },
+      { rank: 2, team: "跑打队", win: 1, loss: 2, score: -5 },
+      { rank: 3, team: "别卷", win: 0, loss: 2, score: -10 },
+      { rank: 4, team: "T-star", win: 2, loss: 0, score: 12 },
       { rank: 5, team: "上海major队", win: 0, loss: 0, score: 0 }
     ],
     "D组": [
-      { rank: 1, team: "LOL", win: 0, loss: 0, score: 0 },
-      { rank: 2, team: "蛇皮走位", win: 0, loss: 0, score: 0 },
+      { rank: 1, team: "LOL", win: 0, loss: 1, score: -5 },
+      { rank: 2, team: "蛇皮走胃", win: 1, loss: 0, score: 5 },
       { rank: 3, team: "谁的啤儿茶爽", win: 0, loss: 0, score: 0 },
       { rank: 4, team: "最糖特工队", win: 0, loss: 0, score: 0 },
       { rank: 5, team: "魔王c+队", win: 0, loss: 0, score: 0 }
