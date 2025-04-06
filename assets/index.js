@@ -317,14 +317,14 @@ const RankingPage = () => {
     "A组": [
       { rank: 1, team: "练枪不如烧香", win: 3, loss: 0, score: 5 },
       { rank: 2, team: "我是奶龙", win: 2, loss: 1, score: 5 },
-      { rank: 3, team: "少年先锋队",win: 1, loss: 2,score: 5},
+      { rank: 3, team: "少年先锋队", win: 1, loss: 2, score: 5 },
       { rank: 4, team: "第一五妹队", win: 0, loss: 3, score: -15 },
       { rank: 5, team: "玖幺传媒", win: 0, loss: 0, score: "弃赛" }
     ],
     "B组": [
-      { rank: 1, team: "绝对是坤坤队", win: 4, loss: 0, score: 18  },
-      { rank: 2, team: "GWG", win: 3, loss: 1, score: -3 }, 
-      { rank: 3, team: "把饭拼好给你", win: 2, loss: 2, score: -1},
+      { rank: 1, team: "绝对是坤坤队", win: 4, loss: 0, score: 18 },
+      { rank: 2, team: "GWG", win: 3, loss: 1, score: -3 },
+      { rank: 3, team: "把饭拼好给你", win: 2, loss: 2, score: -1 },
       { rank: 4, team: "糖豆人队", win: 1, loss: 3, score: -14 },
       { rank: 5, team: "不叫妈妈队", win: 0, loss: -4, score: 0 }
     ],
@@ -343,8 +343,18 @@ const RankingPage = () => {
       { rank: 5, team: "谁的啤儿茶爽", win: 0, loss: 0, score: 0 }
     ]
   };
+  
   const groups = Object.keys(data);
-  const current = data[group].sort((a, b) => b.score - a.score);
+
+  const current = data[group].sort((a, b) => {
+    const winDiff = b.win - a.win;
+    if (winDiff !== 0) {
+      return winDiff;
+    }
+    const scoreA = typeof a.score === "number" ? a.score : -Infinity;
+    const scoreB = typeof b.score === "number" ? b.score : -Infinity;
+    return scoreB - scoreA;
+  });
 
   return PageWrapper(
     createElement("div", {
