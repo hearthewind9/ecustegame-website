@@ -315,32 +315,32 @@ const RankingPage = () => {
   const [group, setGroup] = useState("A组");
   const data = {
     "A组": [
-      { rank: 1, team: "练枪不如烧香", win: 3, loss: 0, score: 5 },
-      { rank: 2, team: "我是奶龙", win: 2, loss: 1, score: 5 },
-      { rank: 3, team: "少年先锋队", win: 1, loss: 2, score: 5 },
-      { rank: 4, team: "第一五妹队", win: 0, loss: 3, score: -15 },
+      { rank: 1, team: "练枪不如烧香", win: 6, loss: 0, score: 11 },
+      { rank: 2, team: "我是奶龙", win: 4, loss: 2, score: -1 },
+      { rank: 3, team: "少年先锋队", win: 1, loss: 4, score: 5 },
+      { rank: 4, team: "第一五妹队", win: 0, loss: 5, score: -15 },
       { rank: 5, team: "玖幺传媒", win: 0, loss: 0, score: "弃赛" }
     ],
     "B组": [
-      { rank: 1, team: "绝对是坤坤队", win: 4, loss: 0, score: 18 },
-      { rank: 2, team: "GWG", win: 3, loss: 1, score: -3 },
-      { rank: 3, team: "把饭拼好给你", win: 2, loss: 2, score: -1 },
+      { rank: 1, team: "绝对是坤坤队", win: 5, loss: 1, score: 6 },
+      { rank: 2, team: "把饭拼好给你", win: 4, loss: 2, score: 16 },
+      { rank: 3, team: "GWG", win: 3, loss: 3, score: -8 },
       { rank: 4, team: "糖豆人队", win: 1, loss: 3, score: -14 },
-      { rank: 5, team: "不叫妈妈队", win: 0, loss: -4, score: 0 }
+      { rank: 5, team: "不叫妈妈队", win: 0, loss: 4, score: 0 }
     ],
     "C组": [
-      { rank: 1, team: "采一朵莲", win: 2, loss: 0, score: 10 },
-      { rank: 2, team: "跑打队", win: 2, loss: 1, score: -1 },
-      { rank: 3, team: "别卷", win: 1, loss: 2, score: -9 },
-      { rank: 4, team: "上海major队", win: 0, loss: 0, score: 0 },
+      { rank: 1, team: "上海major队", win: 6, loss: 0, score: 50 },
+      { rank: 2, team: "采一朵莲", win: 4, loss: 2, score: 5 },
+      { rank: 3, team: "跑打队", win: 2, loss: 5, score: -25 },
+      { rank: 4, team: "别卷", win: 2, loss: 5, score: -34 },
       { rank: 5, team: "T-star", win: 0, loss: 2, score: 0 }
     ],
     "D组": [
-      { rank: 1, team: "LOL", win: 3, loss: 1, score: 4 },
-      { rank: 2, team: "蛇皮走胃", win: 3, loss: 1, score: 1 },
-      { rank: 3, team: "魔王c+队", win: 2, loss: 2, score: 4 },
-      { rank: 4, team: "最糖特工队", win: 2, loss: 2, score: -9 },
-      { rank: 5, team: "谁的啤儿茶爽", win: 0, loss: 4, score: 0 }
+      { rank: 1, team: "LOL", win: 7, loss: 1, score: 13 },
+      { rank: 2, team: "蛇皮走胃", win: 5, loss: 3, score: -6 },
+      { rank: 3, team: "魔王c+队", win: 4, loss: 4, score: 4 },
+      { rank: 4, team: "谁的啤儿茶爽", win: 2, loss: 6, score: -2 },
+      { rank: 5, team: "最糖特工队", win: 2, loss: 6, score: -9 }
     ]
   };
   
