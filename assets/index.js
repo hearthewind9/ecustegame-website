@@ -586,32 +586,240 @@ const groupData = [
   ["lolm", "604345565"], ["COD（双端均可）", "862900842"]
 ];
 
-const ContactPage = () => PageWrapper(
-  createElement("div", {
-    style: {
-      minHeight: "100vh",
-      background: "#eff6ff",
-      padding: "2rem",
-      color: "#1e3a8a"
-    }
-  },
-    createElement("h2", { style: { textAlign: "center" } }, "各大游戏群请参考以下群号，大家玩的开心！"),
-    createElement("p", {
-      style: { maxWidth: 700, margin: "1rem auto", fontSize: "0.9rem", textAlign: "center" }
-    }, "首先，各位要清楚，这些群不知道还活没活着，活着可能也是些老登，电竞部只做宣传。"),
-    createElement("p", {
-      style: { maxWidth: 700, margin: "-0.5rem auto 1rem", fontSize: "0.9rem", textAlign: "center" }
-    }, "各位如有需求，可以找到同好，拉建新群，联系我来改公告宣传哝！"),
-    createElement("div", { className: "group-list" },
-      groupData.map(([name, id], idx) =>
-        createElement("div", { className: "group-item", key: idx },
-          createElement("strong", null, name),
-          createElement("div", null, id)
+const ContactPage = () => {
+  const [groups, setGroups] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchGroups = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        // 1. 获取飞书访问令牌
+        const tokenResponse = await fetch('https://feishuapi.bestzyq.cn/open-apis/auth/v3/tenant_access_token/internal', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            app_id: 'cli_a8f1d48265fc500e',
+            app_secret: 'u2NfRSgPlrI4KUhba3389eyj3LSa4aGR'
+          })
+        });
+        
+        const tokenData = await tokenResponse.json();
+        if (tokenData.code !== 0) {
+          throw new Error('获取飞书访问令牌失败');
+        }
+        
+        const token = tokenData.tenant_access_token;
+        let allGroups = [];
+        let pageToken = null;
+        let hasMore = true;
+        
+        // 2. 分页获取所有数据
+        while (hasMore) {
+          let url = 'https://feishuapi.bestzyq.cn/open-apis/bitable/v1/apps/Y9HBbtQoxawALxs3XK8cOY9pn8g/tables/tblVq51wR2ZPVax4/records/search?page_size=100';
+          if (pageToken) {
+            url += `&page_token=${pageToken}`;
+          }
+          
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({})
+          });
+          
+          const data = await response.json();
+          if (data.code === 0) {
+            // 处理当前页数据
+            const pageGroups = data.data.items
+              .filter(item => 
+                item.fields['是否可信'] === true && 
+                (item.fields['类别'] === '休闲娱乐' || item.fields['类别'] === '学习交流')
+              )
+              .map(item => {
+                const groupId = item.fields['QQ群号'];
+                const url = (item.fields['加群链接'] && item.fields['加群链接'].link) || null;
+                
+                // 处理描述字段
+                let groupName = '暂无描述';
+                if (item.fields['描述'] && Array.isArray(item.fields['描述']) && item.fields['描述'].length > 0) {
+                  groupName = item.fields['描述']
+                    .filter(desc => desc.type === 'text')
+                    .map(desc => desc.text)
+                    .join('');
+                }
+                
+                return {
+                  name: groupName,
+                  id: groupId,
+                  url
+                };
+              });
+            
+            allGroups = [...allGroups, ...pageGroups];
+            hasMore = data.data.has_more;
+            pageToken = data.data.page_token;
+            
+            if (!hasMore || !pageToken) break;
+          } else {
+            throw new Error('获取飞书数据失败');
+          }
+        }
+        
+        // 3. 添加固定项
+        const finalGroups = [
+          { name: "微信公众号", id: "花梨电竞" },
+          { name: "电竞部官方群", id: "691265713" },
+          ...allGroups
+        ];
+        
+        setGroups(finalGroups);
+      } catch (err) {
+        console.error('获取群组信息出错:', err);
+        setError('获取群组信息失败，请稍后重试');
+        // 使用默认数据作为回退
+        setGroups([
+          ["微信公众号", "花梨电竞"],
+          ["电竞部官方群", "691265713"],
+          ["学习交流", "study"],
+          ["休闲娱乐", "game"]
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchGroups();
+  }, []);
+
+  return PageWrapper(
+    createElement("div", {
+      style: {
+        minHeight: "100vh",
+        background: "#eff6ff",
+        padding: "2rem",
+        color: "#1e3a8a"
+      }
+    },
+      createElement("h2", { style: { textAlign: "center" } }, "各大游戏群请参考以下群号，大家玩的开心！"),
+      createElement("p", {
+        style: { maxWidth: 700, margin: "1rem auto", fontSize: "0.9rem", textAlign: "center" }
+      }, "首先，各位要清楚，这些群不知道还活没活着，活着可能也是些老登，电竞部只做宣传。"),
+      createElement("p", {
+        style: { maxWidth: 700, margin: "-0.5rem auto 1rem", fontSize: "0.9rem", textAlign: "center" }
+      }, "各位如有需求，可以找到同好，拉建新群，联系我来改公告宣传哝！"),
+      
+      // 加载状态
+      loading && createElement("div", { 
+        style: { 
+          textAlign: "center", 
+          padding: "2rem" 
+        } 
+      }, 
+        createElement("div", {
+          className: "spinner-border text-primary",
+          role: "status",
+          style: { width: "3rem", height: "3rem" }
+        }),
+        createElement("p", { style: { marginTop: "1rem" } }, "正在加载群组信息...")
+      ),
+      
+      // 错误状态
+      error && createElement("div", {
+        style: {
+          maxWidth: "600px",
+          margin: "0 auto",
+          padding: "1rem",
+          background: "#fee2e2",
+          color: "#b91c1c",
+          borderRadius: "0.5rem",
+          textAlign: "center"
+        }
+      }, error),
+      
+      // 正常显示
+      !loading && !error && createElement("div", { className: "group-list" },
+        groups.map((group, idx) =>
+          createElement("div", { 
+            key: idx,
+            className: "group-item"
+          },
+            createElement("strong", { style: { fontSize: "1.1rem" } }, group.name),
+            createElement("div", { style: { margin: "0.5rem 0", color: "#64748b" } }, group.id),
+            group.url ? createElement("a", {
+              href: group.url,
+              target: "_blank",
+              rel: "noopener noreferrer",
+              style: {
+                display: "inline-block",
+                padding: "0.3rem 0.8rem",
+                fontSize: "0.9rem",
+                background: "#1e3a8a",
+                color: "white",
+                borderRadius: "0.5rem",
+                textDecoration: "none"
+              }
+            }, "加入群聊") : createElement("div", { 
+              style: { 
+                display: "inline-block",
+                padding: "0.3rem 0.8rem",
+                fontSize: "0.9rem",
+                background: "#64748b",
+                color: "white",
+                borderRadius: "0.5rem",
+                textDecoration: "none"
+              } 
+            }, "暂无链接")
+          )
         )
+      ),
+      
+      // 表单提示
+      createElement("div", {
+        style: {
+          maxWidth: 700,
+          margin: "2rem auto 0",
+          padding: "1rem",
+          background: "#f1f8fe",
+          borderRadius: "0.5rem",
+          textAlign: "center",
+          fontSize: "0.9rem"
+        }
+      },
+        "群信息维护 | 请通过官方表单提交更新",
+        createElement("a", {
+          href: "https://ecustcic.feishu.cn/share/base/form/shrcn5SJVIvKbkfDZxQsn0djtng",
+          target: "_blank",
+          style: {
+            display: "block",
+            marginTop: "0.5rem",
+            color: "#2563eb",
+            textDecoration: "none"
+          }
+        }, "立即填写表单 →"),
+        createElement("p", {
+          style: {
+            marginTop: "0.5rem",
+            color: "#64748b"
+          }
+        }, "本页信息由 ", 
+          createElement("a", {
+            href: "https://www.ecustcic.com/",
+            target: "_blank",
+            style: { color: "#2563eb" }
+          }, "CIC计算机信息交流协会"), 
+          " 提供")
       )
     )
-  )
-);
+  );
+};
 
 const Page = ({ title }) => PageWrapper(
   createElement("div", {
